@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ deployment.title }} - DeployLab{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <div>
+            <h1>{{ deployment.title }}</h1>
+            <p class="muted">{{ deployment.description }}</p>
+        </div>
+        <a class="button button--secondary" href="{{ path('app_deployment_index') }}">Retour</a>
+    </div>
+
+    <section class="panel">
+        <dl class="detail-list">
+            <dt>Application</dt><dd><a href="{{ path('app_application_show', { id: deployment.application.id }) }}">{{ deployment.application.name }}</a></dd>
+            <dt>Environnement cible</dt><dd>{{ deployment.targetEnvironment.name }} ({{ deployment.targetEnvironment.type }})</dd>
+            <dt>Version</dt><dd>{{ deployment.version }}</dd>
+            <dt>Statut</dt><dd><span class="badge badge--{{ deployment.status }}">{{ deployment.status }}</span></dd>
+            <dt>Demandeur</dt><dd>{{ deployment.requestedBy.fullName }}</dd>
+            <dt>Planifie le</dt><dd>{{ deployment.scheduledAt ? deployment.scheduledAt|date('d/m/Y H:i') : 'Non planifie' }}</dd>
+            <dt>Deploye le</dt><dd>{{ deployment.deployedAt ? deployment.deployedAt|date('d/m/Y H:i') : '-' }}</dd>
+            <dt>Cree le</dt><dd>{{ deployment.createdAt|date('d/m/Y H:i') }}</dd>
+        </dl>
+    </section>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <h2>Changer le statut</h2>
+        {{ form_start(status_form, { attr: { class: 'form panel' } }) }}
+            {{ form_row(status_form.status, { row_attr: { class: 'form-row' } }) }}
+            <button type="submit">Mettre a jour</button>
+        {{ form_end(status_form) }}
+    {% endif %}
+{% endblock %}

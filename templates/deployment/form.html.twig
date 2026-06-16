@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }} - DeployLab{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1>{{ title }}</h1>
+        <a class="button button--secondary" href="{{ path('app_deployment_index') }}">Retour</a>
+    </div>
+
+    {{ form_start(form, { attr: { class: 'form panel' } }) }}
+        {{ form_row(form.title, { row_attr: { class: 'form-row' } }) }}
+        {{ form_row(form.description, { row_attr: { class: 'form-row' } }) }}
+        {{ form_row(form.application, { row_attr: { class: 'form-row' } }) }}
+        {{ form_row(form.targetEnvironment, { row_attr: { class: 'form-row' } }) }}
+        {{ form_row(form.version, { row_attr: { class: 'form-row' } }) }}
+        {{ form_row(form.scheduledAt, { row_attr: { class: 'form-row' } }) }}
+        <button type="submit">Enregistrer</button>
+    {{ form_end(form) }}
+{% endblock %}

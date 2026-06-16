@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Demandes - DeployLab{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1>Demandes de deploiement</h1>
+        <a class="button" href="{{ path('app_deployment_new') }}">Nouvelle demande</a>
+    </div>
+
+    {% include 'deployment/_table.html.twig' with { deployments: deployments } %}
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard - DeployLab{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <div>
+            <h1>Dashboard</h1>
+            <p class="muted">Suivi interne des applications, environnements et demandes de mise en production.</p>
+        </div>
+        <a class="button" href="{{ path('app_deployment_new') }}">Nouvelle demande</a>
+    </div>
+
+    <section class="grid grid--stats">
+        <div class="card stat"><strong>{{ application_count }}</strong><span>Applications</span></div>
+        <div class="card stat"><strong>{{ active_environment_count }}</strong><span>Environnements actifs</span></div>
+        <div class="card stat"><strong>{{ pending_deployment_count }}</strong><span>Demandes en attente</span></div>
+    </section>
+
+    <h2>Dernieres demandes</h2>
+    {% include 'deployment/_table.html.twig' with { deployments: latest_deployments } %}
+{% endblock %}

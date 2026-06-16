@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}DeployLab{% endblock %}</title>
+        {% block stylesheets %}
+        {% endblock %}
+
+        {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
+
+        {% set frankenphpHotReload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
+        {% if frankenphpHotReload %}
+        <meta name="frankenphp-hot-reload:url" content="{{ frankenphpHotReload }}">
+        <script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
+        <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
+        {% endif %}
+    </head>
+    <body>
+        <header class="topbar">
+            <div class="topbar__inner">
+                <a class="brand" href="{{ path('app_dashboard') }}">DeployLab</a>
+                {% if app.user %}
+                    <nav class="nav" aria-label="Navigation principale">
+                        <a href="{{ path('app_dashboard') }}">Dashboard</a>
+                        <a href="{{ path('app_application_index') }}">Applications</a>
+                        <a href="{{ path('app_deployment_index') }}">Demandes</a>
+                        <span>{{ app.user.userIdentifier }}</span>
+                        <a href="{{ path('app_logout') }}">Logout</a>
+                    </nav>
+                {% endif %}
+            </div>
+        </header>
+        <main class="page">
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="flash flash-{{ label }}">{{ message }}</div>
+                {% endfor %}
+            {% endfor %}
+            {% block body %}{% endblock %}
+        </main>
+    </body>
+</html>

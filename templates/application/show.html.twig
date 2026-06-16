@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ application.name }} - DeployLab{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <div>
+            <h1>{{ application.name }}</h1>
+            <p class="muted">{{ application.description }}</p>
+        </div>
+        <div class="actions">
+            {% if is_granted('ROLE_ADMIN') %}
+                <a class="button button--secondary" href="{{ path('app_application_edit', { id: application.id }) }}">Modifier</a>
+                <a class="button" href="{{ path('app_environment_new', { id: application.id }) }}">Ajouter un environnement</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <section class="panel">
+        <dl class="detail-list">
+            <dt>Depot</dt><dd><a href="{{ application.repositoryUrl }}" target="_blank" rel="noreferrer">{{ application.repositoryUrl }}</a></dd>
+            <dt>Criticite</dt><dd><span class="badge badge--{{ application.criticality }}">{{ application.criticality }}</span></dd>
+            <dt>Creee le</dt><dd>{{ application.createdAt|date('d/m/Y H:i') }}</dd>
+            <dt>Mise a jour</dt><dd>{{ application.updatedAt|date('d/m/Y H:i') }}</dd>
+        </dl>
+    </section>
+
+    <h2>Environnements</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Type</th>
+                <th>URL</th>
+                <th>Etat</th>
+                {% if is_granted('ROLE_ADMIN') %}<th></th>{% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for environment in application.environments %}
+                <tr>
+                    <td>{{ environment.name }}</td>
+                    <td>{{ environment.type }}</td>
+                    <td><a href="{{ environment.url }}" target="_blank" rel="noreferrer">{{ environment.url }}</a></td>
+                    <td><span class="badge {{ environment.active ? 'badge--active' : '' }}">{{ environment.active ? 'actif' : 'inactif' }}</span></td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <td class="actions">
+                            <a href="{{ path('app_environment_edit', { id: environment.id }) }}">Modifier</a>
+                            <form method="post" action="{{ path('app_environment_delete', { id: environment.id }) }}" onsubmit="return confirm('Supprimer cet environnement ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete_environment_' ~ environment.id) }}">
+                                <button class="button--danger" type="submit">Supprimer</button>
+                            </form>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% else %}
+                <tr><td colspan="{{ is_granted('ROLE_ADMIN') ? 5 : 4 }}">Aucun environnement.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <form method="post" action="{{ path('app_application_delete', { id: application.id }) }}" onsubmit="return confirm('Supprimer cette application et ses environnements ?');">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete_application_' ~ application.id) }}">
+            <button class="button--danger" type="submit">Supprimer l'application</button>
+        </form>
+    {% endif %}
+{% endblock %}

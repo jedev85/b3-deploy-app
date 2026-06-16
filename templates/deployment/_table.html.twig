@@ -1,0 +1,26 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Titre</th>
+            <th>Application</th>
+            <th>Cible</th>
+            <th>Version</th>
+            <th>Statut</th>
+            <th>Demandeur</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for deployment in deployments %}
+            <tr>
+                <td><a href="{{ path('app_deployment_show', { id: deployment.id }) }}">{{ deployment.title }}</a></td>
+                <td>{{ deployment.application.name }}</td>
+                <td>{{ deployment.targetEnvironment.name }}</td>
+                <td>{{ deployment.version }}</td>
+                <td><span class="badge badge--{{ deployment.status }}">{{ deployment.status }}</span></td>
+                <td>{{ deployment.requestedBy.fullName }}</td>
+            </tr>
+        {% else %}
+            <tr><td colspan="6">Aucune demande.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
