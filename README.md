@@ -4,6 +4,8 @@ DeployLab est une mini-application Symfony pedagogique pour travailler une strat
 
 L'application simule un outil interne de suivi de demandes de mise en production. Elle contient volontairement une base fonctionnelle, mais pas une industrialisation production complete.
 
+Le depot ne fournit volontairement ni configuration Docker, ni Docker Compose, ni Makefile, ni strategie d'environnements prete a l'emploi. Ces sujets font partie du travail attendu.
+
 ## Stack
 
 - PHP 8.3 ou 8.4
@@ -19,20 +21,19 @@ L'application simule un outil interne de suivi de demandes de mise en production
 
 - PHP 8.3+
 - Composer 2
-- PostgreSQL 16, ou Docker avec Docker Compose
+- PostgreSQL 16
 - Symfony CLI facultatif
 
-## Installation locale sans Docker
+## Installation locale minimale
 
 ```bash
 composer install
 cp .env.example .env
 ```
 
-Adapter `DATABASE_URL` dans `.env`, puis creer la base et charger les donnees :
+Adapter `DATABASE_URL` dans `.env` pour pointer vers une base PostgreSQL locale que vous avez creee, puis lancer les migrations et les fixtures :
 
 ```bash
-php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
 php bin/console doctrine:fixtures:load
 symfony server:start
@@ -43,21 +44,6 @@ Sans Symfony CLI :
 ```bash
 php -S 127.0.0.1:8000 -t public
 ```
-
-## Installation avec Docker Compose
-
-```bash
-docker compose up --build
-```
-
-Dans un autre terminal :
-
-```bash
-docker compose exec php php bin/console doctrine:migrations:migrate
-docker compose exec php php bin/console doctrine:fixtures:load
-```
-
-L'application est disponible sur `http://localhost:8000`.
 
 ## Comptes de test
 
@@ -82,16 +68,6 @@ php bin/console debug:router
 php bin/phpunit
 ```
 
-Avec le Makefile :
-
-```bash
-make install
-make start
-make migrate
-make fixtures
-make test
-```
-
 ## Tests
 
 ```bash
@@ -102,11 +78,14 @@ Les tests fournis sont volontairement simples. Ils servent de point de depart po
 
 ## Travail attendu des etudiants
 
-Le projet est fonctionnel en local, mais il n'est pas pret pour la production. Les etudiants doivent proposer et justifier :
+Le projet fournit le code applicatif Symfony, mais il ne fournit pas l'industrialisation. Les etudiants doivent proposer, implementer et justifier :
 
-- une configuration par environnement : dev, staging, prod
+- une strategie d'environnements complete, du local au staging puis a la production
+- une configuration par environnement : dev/local, staging, prod
+- un Dockerfile adapte au developpement si necessaire
 - un Dockerfile de production
-- un docker-compose ou une stack adaptee a la production
+- un docker-compose, une stack ou une alternative adaptee a chaque contexte
+- un Makefile ou une autre interface de commandes si l'equipe le juge utile
 - une strategie de variables d'environnement et secrets
 - une pipeline CI/CD
 - une strategie de migration de base de donnees
@@ -117,4 +96,4 @@ Le projet est fonctionnel en local, mais il n'est pas pret pour la production. L
 - une strategie de monitoring / healthcheck
 - une documentation de mise en production
 
-Points volontairement perfectibles : pas de reverse proxy de production, pas de registry Docker, pas de HTTPS, pas de monitoring complet, pas de sauvegarde automatisee, pas de gestion avancee du cache ou des logs, pas de strategie de rollback implementee.
+Points volontairement absents : pas de Dockerfile, pas de Docker Compose, pas de Makefile, pas de reverse proxy, pas de registry Docker, pas de HTTPS, pas de monitoring complet, pas de sauvegarde automatisee, pas de gestion avancee du cache ou des logs, pas de strategie de rollback implementee, pas de configuration staging/prod fournie.
