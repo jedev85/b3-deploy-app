@@ -5,3 +5,7 @@
  * which should already be in your base.html.twig.
  */
 import './styles/app.css';
+
+if (document.querySelector('[data-deployment-status-widget]')) {
+    import('./deployment-status-widget.js');
+}

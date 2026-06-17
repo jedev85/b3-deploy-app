@@ -58,6 +58,13 @@ php -S 127.0.0.1:8000 -t public
 - `/deployments` : liste des demandes de deploiement
 - `/health` : healthcheck JSON avec test rapide de connexion base de donnees
 
+Fonctionnalites disponibles dans les demandes :
+
+- filtres par statut et application
+- commentaires internes par demande
+- journal d'activite des changements de statut
+- widget Vue.js sur le dashboard pour visualiser la repartition des statuts
+
 ## Commandes utiles
 
 ```bash

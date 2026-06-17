@@ -225,6 +225,14 @@ button:hover {
     max-width: 760px;
 }
 
+.filters {
+    display: grid;
+    grid-template-columns: minmax(160px, 220px) minmax(220px, 1fr) auto;
+    gap: 16px;
+    align-items: end;
+    margin-bottom: 16px;
+}
+
 .form-row {
     display: grid;
     gap: 6px;
@@ -274,6 +282,96 @@ textarea {
     gap: 10px 16px;
 }
 
+.split {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.8fr);
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.stack {
+    display: grid;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.timeline {
+    display: grid;
+    gap: 12px;
+}
+
+.timeline-item {
+    position: relative;
+    padding: 14px 16px;
+    border-left: 4px solid var(--accent);
+    background: var(--surface);
+    border-radius: 6px;
+    border-top: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+
+.status-widget-mount {
+    margin: 20px 0 28px;
+}
+
+.status-widget__header,
+.status-widget__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: center;
+}
+
+.status-widget h2 {
+    margin: 0;
+}
+
+.status-widget__list {
+    display: grid;
+    gap: 14px;
+    margin-top: 16px;
+}
+
+.status-widget__row {
+    display: grid;
+    gap: 8px;
+}
+
+.status-widget__bar {
+    height: 10px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #e4ebf0;
+}
+
+.status-widget__fill {
+    display: block;
+    height: 100%;
+    min-width: 2px;
+    background: var(--accent);
+}
+
+.status-widget__fill--draft {
+    background: #7a8794;
+}
+
+.status-widget__fill--ready {
+    background: #c28400;
+}
+
+.status-widget__fill--deployed {
+    background: var(--success);
+}
+
+.status-widget__fill--failed {
+    background: var(--danger);
+}
+
+.status-widget__fill--cancelled {
+    background: #465668;
+}
+
 @media (max-width: 720px) {
     .topbar__inner,
     .page-header {
@@ -286,7 +384,9 @@ textarea {
         overflow-x: auto;
     }
 
-    .detail-list {
+    .detail-list,
+    .split,
+    .filters {
         grid-template-columns: 1fr;
     }
 }

@@ -17,6 +17,12 @@
         <div class="card stat"><strong>{{ pending_deployment_count }}</strong><span>Demandes en attente</span></div>
     </section>
 
+    <div
+        data-deployment-status-widget
+        data-status-url="{{ path('api_deployment_statuses') }}"
+        class="status-widget-mount"
+    ></div>
+
     <h2>Dernieres demandes</h2>
     {% include 'deployment/_table.html.twig' with { deployments: latest_deployments } %}
 {% endblock %}

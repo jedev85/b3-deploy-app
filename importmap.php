@@ -16,4 +16,19 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
+    'vue' => [
+        'version' => '3.5.38',
+    ],
+    '@vue/runtime-dom' => [
+        'version' => '3.5.38',
+    ],
+    '@vue/runtime-core' => [
+        'version' => '3.5.38',
+    ],
+    '@vue/shared' => [
+        'version' => '3.5.38',
+    ],
+    '@vue/reactivity' => [
+        'version' => '3.5.38',
+    ],
 ];

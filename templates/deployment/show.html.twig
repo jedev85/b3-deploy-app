@@ -31,4 +31,48 @@
             <button type="submit">Mettre a jour</button>
         {{ form_end(status_form) }}
     {% endif %}
+
+    <section class="split">
+        <div>
+            <h2>Commentaires</h2>
+            {{ form_start(comment_form, { attr: { class: 'form panel' } }) }}
+                {{ form_row(comment_form.content, { row_attr: { class: 'form-row' } }) }}
+                <button type="submit">Ajouter</button>
+            {{ form_end(comment_form) }}
+
+            <div class="stack">
+                {% for comment in deployment.comments %}
+                    <article class="panel">
+                        <p>{{ comment.content|nl2br }}</p>
+                        <p class="muted">{{ comment.author.fullName }} - {{ comment.createdAt|date('d/m/Y H:i') }}</p>
+                    </article>
+                {% else %}
+                    <p class="muted">Aucun commentaire.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div>
+            <h2>Activite</h2>
+            <div class="timeline">
+                {% for activity in deployment.activities %}
+                    <article class="timeline-item">
+                        <strong>{{ activity.note }}</strong>
+                        <p>
+                            {% if activity.oldStatus %}
+                                <span class="badge badge--{{ activity.oldStatus }}">{{ activity.oldStatus }}</span>
+                                vers
+                            {% endif %}
+                            <span class="badge badge--{{ activity.newStatus }}">{{ activity.newStatus }}</span>
+                        </p>
+                        <p class="muted">
+                            {{ activity.actor ? activity.actor.fullName : 'Systeme' }} - {{ activity.createdAt|date('d/m/Y H:i') }}
+                        </p>
+                    </article>
+                {% else %}
+                    <p class="muted">Aucune activite.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 {% endblock %}

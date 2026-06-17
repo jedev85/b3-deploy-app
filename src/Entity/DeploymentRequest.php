@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DeploymentRequestRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -60,6 +62,22 @@ class DeploymentRequest
 
     #[ORM\Column]
     private \DateTimeImmutable $updatedAt;
+
+    /** @var Collection<int, DeploymentComment> */
+    #[ORM\OneToMany(targetEntity: DeploymentComment::class, mappedBy: 'deploymentRequest', orphanRemoval: true)]
+    #[ORM\OrderBy(['createdAt' => 'DESC'])]
+    private Collection $comments;
+
+    /** @var Collection<int, DeploymentActivity> */
+    #[ORM\OneToMany(targetEntity: DeploymentActivity::class, mappedBy: 'deploymentRequest', orphanRemoval: true)]
+    #[ORM\OrderBy(['createdAt' => 'DESC'])]
+    private Collection $activities;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+        $this->activities = new ArrayCollection();
+    }
 
     #[ORM\PrePersist]
     public function initializeTimestamps(): void
@@ -192,5 +210,17 @@ class DeploymentRequest
     public function getUpdatedAt(): \DateTimeImmutable
     {
         return $this->updatedAt;
+    }
+
+    /** @return Collection<int, DeploymentComment> */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    /** @return Collection<int, DeploymentActivity> */
+    public function getActivities(): Collection
+    {
+        return $this->activities;
     }
 }

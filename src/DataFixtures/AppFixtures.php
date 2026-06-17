@@ -3,6 +3,8 @@
 namespace App\DataFixtures;
 
 use App\Entity\Application;
+use App\Entity\DeploymentActivity;
+use App\Entity\DeploymentComment;
 use App\Entity\DeploymentRequest;
 use App\Entity\Environment;
 use App\Entity\User;
@@ -78,7 +80,7 @@ class AppFixtures extends Fixture
             ->setIsActive(true);
         $manager->persist($billingStaging);
 
-        $manager->persist((new DeploymentRequest())
+        $portalDeployment = (new DeploymentRequest())
             ->setTitle('Deployer Customer Portal 1.8.0')
             ->setDescription('Mise en ligne du nouveau parcours de renouvellement client.')
             ->setApplication($portal)
@@ -86,16 +88,32 @@ class AppFixtures extends Fixture
             ->setVersion('1.8.0')
             ->setStatus('ready')
             ->setScheduledAt(new \DateTimeImmutable('+2 days'))
-            ->setRequestedBy($user));
+            ->setRequestedBy($user);
+        $manager->persist($portalDeployment);
 
-        $manager->persist((new DeploymentRequest())
+        $billingDeployment = (new DeploymentRequest())
             ->setTitle('Rejouer les jobs Billing Worker 2.3.1')
             ->setDescription('Correctif sur le calcul de TVA intracommunautaire.')
             ->setApplication($billing)
             ->setTargetEnvironment($billingStaging)
             ->setVersion('2.3.1')
             ->setStatus('draft')
-            ->setRequestedBy($admin));
+            ->setRequestedBy($admin);
+        $manager->persist($billingDeployment);
+
+        $manager->persist(DeploymentActivity::statusChanged($portalDeployment, $user, null, 'draft'));
+        $manager->persist(DeploymentActivity::statusChanged($portalDeployment, $admin, 'draft', 'ready'));
+        $manager->persist(DeploymentActivity::statusChanged($billingDeployment, $admin, null, 'draft'));
+
+        $manager->persist((new DeploymentComment())
+            ->setDeploymentRequest($portalDeployment)
+            ->setAuthor($admin)
+            ->setContent('Verifier que les migrations ont ete jouees sur staging avant validation production.'));
+
+        $manager->persist((new DeploymentComment())
+            ->setDeploymentRequest($portalDeployment)
+            ->setAuthor($user)
+            ->setContent('Le changelog fonctionnel est pret et partage avec le support.'));
 
         $manager->flush();
     }

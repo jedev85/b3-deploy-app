@@ -8,5 +8,30 @@
         <a class="button" href="{{ path('app_deployment_new') }}">Nouvelle demande</a>
     </div>
 
+    <form class="filters panel" method="get">
+        <div class="form-row">
+            <label for="status">Statut</label>
+            <select name="status" id="status">
+                <option value="">Tous</option>
+                {% for status in statuses %}
+                    <option value="{{ status }}" {{ current_status == status ? 'selected' : '' }}>{{ status }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-row">
+            <label for="application">Application</label>
+            <select name="application" id="application">
+                <option value="">Toutes</option>
+                {% for application in applications %}
+                    <option value="{{ application.id }}" {{ current_application and current_application.id == application.id ? 'selected' : '' }}>{{ application.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="actions">
+            <button type="submit">Filtrer</button>
+            <a class="button button--secondary" href="{{ path('app_deployment_index') }}">Reinitialiser</a>
+        </div>
+    </form>
+
     {% include 'deployment/_table.html.twig' with { deployments: deployments } %}
 {% endblock %}
