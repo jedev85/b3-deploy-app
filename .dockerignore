@@ -1,0 +1,9 @@
+.context/
+.git/
+.phpunit.cache/
+.DS_Store
+assets/vendor/
+public/assets/
+var/
+vendor/
+consigne_projet_deploylab_local_to_prod.pdf
