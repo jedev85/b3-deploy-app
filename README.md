@@ -100,6 +100,26 @@ php bin/phpunit
 
 Les tests fournis sont volontairement simples. Ils servent de point de depart pour etendre la couverture fonctionnelle, notamment sur les controles d'acces et les parcours de creation.
 
+## QA et CI
+
+Le depot contient un workflow GitHub Actions qui lance les controles suivants sur `main` et sur les pull requests :
+
+- validation Composer
+- lint YAML, Twig et conteneur Symfony
+- PHPStan
+- Psalm
+- PHPUnit
+- Behat avec PostgreSQL 16
+
+Commandes locales utiles :
+
+```bash
+composer qa
+composer test
+composer test:phpunit
+composer test:behat
+```
+
 ## Travail attendu des etudiants
 
 Le projet fournit le code applicatif Symfony, mais il ne fournit pas l'industrialisation. Les etudiants doivent proposer, implementer et justifier :
