@@ -4,7 +4,7 @@ DeployLab est une mini-application Symfony pedagogique pour travailler une strat
 
 L'application simule un outil interne de suivi de demandes de mise en production. Elle contient volontairement une base fonctionnelle, mais pas une industrialisation production complete.
 
-Le depot ne fournit volontairement ni configuration Docker, ni Docker Compose, ni Makefile, ni strategie d'environnements prete a l'emploi. Ces sujets font partie du travail attendu.
+Le depot ne fournit volontairement ni Dockerfile, ni Docker Compose, ni Makefile, ni strategie d'environnements prete a l'emploi. Ces sujets font partie du travail attendu.
 
 ## Stack
 
@@ -44,6 +44,23 @@ Sans Symfony CLI :
 ```bash
 php -S 127.0.0.1:8000 -t public
 ```
+
+## Docker attendu
+
+Docker n'est pas fourni cle en main dans ce depot. Les etudiants doivent concevoir une strategie Docker progressive pour passer d'un usage local a une cible staging puis production.
+
+Le travail Docker attendu doit au minimum couvrir :
+
+- une image PHP locale capable d'executer Symfony et Composer
+- les extensions PHP necessaires, notamment `pdo_pgsql`, `intl`, `zip` et `opcache`
+- un service PostgreSQL local ou une connexion documentee vers une base PostgreSQL existante
+- la gestion de `DATABASE_URL` selon le contexte d'execution, par exemple hote local, conteneur applicatif ou reseau Docker
+- une commande claire pour installer les dependances Composer
+- une commande claire pour lancer les migrations et les fixtures
+- une commande claire pour lancer le serveur applicatif en local
+- une distinction explicite entre Docker de developpement et Docker de production
+
+La solution production ne doit pas etre une simple copie de l'environnement local. Elle doit traiter au minimum les sujets suivants : image optimisee, utilisateur non-root, variables d'environnement, secrets, cache Symfony, logs, reverse proxy, HTTPS, migrations, rollback et healthcheck.
 
 ## Comptes de test
 
@@ -89,7 +106,7 @@ Le projet fournit le code applicatif Symfony, mais il ne fournit pas l'industria
 
 - une strategie d'environnements complete, du local au staging puis a la production
 - une configuration par environnement : dev/local, staging, prod
-- un Dockerfile adapte au developpement si necessaire
+- un Dockerfile adapte au developpement local
 - un Dockerfile de production
 - un docker-compose, une stack ou une alternative adaptee a chaque contexte
 - un Makefile ou une autre interface de commandes si l'equipe le juge utile
