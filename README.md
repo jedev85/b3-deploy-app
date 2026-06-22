@@ -4,7 +4,7 @@ DeployLab est une mini-application Symfony pedagogique pour travailler une strat
 
 L'application simule un outil interne de suivi de demandes de mise en production. Elle contient volontairement une base fonctionnelle, mais pas une industrialisation production complete.
 
-Le depot ne fournit volontairement ni Dockerfile, ni Docker Compose, ni Makefile, ni strategie d'environnements prete a l'emploi. Ces sujets font partie du travail attendu.
+Le depot fournit un outillage Docker minimal pour faciliter l'execution locale et les premiers essais d'hebergement, mais il ne fournit pas de strategie d'environnements prete a l'emploi. Ces sujets font partie du travail attendu.
 
 ## Stack
 
@@ -47,7 +47,7 @@ php -S 127.0.0.1:8000 -t public
 
 ## Docker attendu
 
-Docker n'est pas fourni cle en main dans ce depot. Les etudiants doivent concevoir une strategie Docker progressive pour passer d'un usage local a une cible staging puis production.
+Docker n'est pas fourni comme solution finale cle en main dans ce depot. L'outillage present sert de point de depart local et de support de test, mais les etudiants doivent concevoir une strategie Docker progressive pour passer d'un usage local a une cible staging puis production.
 
 Le travail Docker attendu doit au minimum couvrir :
 
@@ -73,7 +73,7 @@ La solution production ne doit pas etre une simple copie de l'environnement loca
 - `/` : dashboard
 - `/applications` : liste des applications
 - `/deployments` : liste des demandes de deploiement
-- `/health` : healthcheck JSON avec test rapide de connexion base de donnees
+- `/health` : healthcheck JSON public compatible Render, avec test rapide de connexion base de donnees
 
 Fonctionnalites disponibles dans les demandes :
 
@@ -120,4 +120,4 @@ Le projet fournit le code applicatif Symfony, mais il ne fournit pas l'industria
 - une strategie de monitoring / healthcheck
 - une documentation de mise en production
 
-Points volontairement absents : pas de Dockerfile, pas de Docker Compose, pas de Makefile, pas de reverse proxy, pas de registry Docker, pas de HTTPS, pas de monitoring complet, pas de sauvegarde automatisee, pas de gestion avancee du cache ou des logs, pas de strategie de rollback implementee, pas de configuration staging/prod fournie.
+Points volontairement absents : pas de Docker Compose complet, pas de reverse proxy, pas de registry Docker, pas de HTTPS, pas de monitoring complet, pas de sauvegarde automatisee, pas de gestion avancee du cache ou des logs, pas de strategie de rollback implementee, pas de configuration staging/prod fournie.

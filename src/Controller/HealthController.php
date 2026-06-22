@@ -21,10 +21,10 @@ class HealthController extends AbstractController
         }
 
         return $this->json([
-            'status' => 'ok',
+            'status' => 'ok' === $database ? 'ok' : 'degraded',
             'environment' => $this->getParameter('kernel.environment'),
             'database' => $database,
             'timestamp' => (new \DateTimeImmutable())->format(\DateTimeInterface::ATOM),
-        ], 'ok' === $database ? 200 : 503);
+        ]);
     }
 }
